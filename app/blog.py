@@ -39,7 +39,7 @@ def index():
 @click.command("add-post")
 @click.argument("title")
 @click.argument("filename")
-@click.option("author", default=None, help="Name of author")
+@click.option("--author", default=None, help="Name of author")
 @with_appcontext
 def add_post_command(title, filename, author):
     """Add a legacy-style post to the website with a title, and contents from a file."""
@@ -76,8 +76,8 @@ def add_post_command(title, filename, author):
 
 @click.command("add-author")
 @click.argument("name")
-@click.option("picture", default=None, help="Url of picture, relative to static/")
-@click.option("description", default="", help="Description of the author")
+@click.option("--picture", default=None, help="Url of picture, relative to static/")
+@click.option("--description", default="", help="Description of the author")
 @with_appcontext
 def add_author_command(name, picture, description):
     db = get_db()
