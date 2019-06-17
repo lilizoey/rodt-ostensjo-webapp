@@ -32,6 +32,9 @@ def create_app(test_config=None):
     from . import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule("/", endpoint="index")
-    blog.init_app(app)
+
+    from . import cli
+    app.register_blueprint(cli.bp)
+    cli.init_app(app)
 
     return app
