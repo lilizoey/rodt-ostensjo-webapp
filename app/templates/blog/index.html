@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}
+Rødt Østensjø
+{% endblock title %}
+
+{% block content %}
+    {% if first %}
+        <article>
+            <header><h1>{{first["title"]}}</h1></header>
+            {{ first_content|safe }}
+        </article>
+    {% endif %}
+
+    {% if rest %}
+        <hr>
+        {% for post in rest %}
+        <article>
+            <header><h1>{{post["title"]}}</h1></header>
+            <a href="{{url_for('article.article', id=post['id'])}}">Les Mer</a>
+        </article>
+        {% if not loop.last or legacy %}
+            <hr>        
+        {% endif %}
+        {% endfor %}    
+    {% endif %}
+
+    {% if legacy %}
+        {% for post in legacy %}
+        <article>
+            <header><h1>{{post["title"]}}</h1></header>
+            <a href="{{url_for('article.legacy_article', id=post['id'])}}">Les Mer</a>
+        </article>
+        {% if not loop.last %}
+            <hr>        
+        {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endblock content %}

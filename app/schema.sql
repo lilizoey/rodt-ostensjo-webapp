@@ -1,0 +1,25 @@
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS legacy_post;
+DROP TABLE IF EXISTS author;
+
+CREATE TABLE author (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT UNIQUE NOT NULL,
+    picture_url TEXT,
+    description TEXT
+);
+
+CREATE TABLE post (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    author_id INTEGER NOT NULL,
+    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    FOREIGN KEY (author_id) REFERENCES user (id)
+);
+
+CREATE TABLE legacy_post (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL
+);

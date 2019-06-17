@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %} - app</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<header class="top">
+    <a href="{{ url_for('blog.index') }}"><h1>Rødt Østensjø</h1></a>
+    <img src="{{ url_for('static', filename='images/rodt_logo_bokm.svg') }}" alt="Rødt"/>
+</header>
+
+<nav>
+    <a href="404">Om Rødt Østensjø</a>
+    <a href="https://xn--rdt-0na.no/">Rødts nettsted</a>
+    <a href="https://xn--rdt-0na.no/innmelding/">Bli medlem</a>
+    <a href="https://xn--rdt-0na.no/rodt-nytt">Rødt nytt</a>
+    <a href="https://xn--rdt-0na.no/oslo/">Rødt Oslo</a>
+    <a href="https://xn--rdt-0na.no/oslo/eivor-evenrud-er-rodts-toppkandidat-til-kommunevalget-2019">Kommunelista</a>
+    <a href="http://www.rodtostensjo.no/kommuneplan_uttalelse.pdf">Uttalelse om forslag til kommuneplan (2015)</a>
+    <a href="http://issuu.com/brage/docs/bolighefte_ferdig">Hefte om boligpolitikk</a>
+    <a href="http://www.rodtostensjo.no/hvorfor_blir_fattige_fattige.pdf">Hvorfor blir fattige fattige</a>
+</nav>
+
+<section class="content">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</section>
+
+<footer>
+    {% block footer %}{% endblock footer %}
+</footer>
