@@ -42,11 +42,10 @@ def create_app(test_config=None):
 
 def python_anywhere():
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
+    app.config.update(
         SECRET_KEY='dev',
+        DATABASE=os.path.join(app.instance_path,"app.sqlite"),
     )
-
-    app.config["DATABASE"] = os.path.join(app.instance_path, 'app.sqlite')
 
     from . import db
     db.init_app(app)
