@@ -40,7 +40,7 @@ def add_post_command(title, legacy, filename, author):
         return
 
     db = get_db()
-    file_is_temp = False
+    file_is_temp = False or filename == TEMP_FILE_NAME
 
     if not os.path.isfile(filename):
         open(filename, "w+").close()
