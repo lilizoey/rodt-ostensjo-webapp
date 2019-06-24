@@ -9,7 +9,7 @@ body {
 
 /* general header stuff */
 
-header {
+header.top {
     top: 0;
     height: 150px;
     display: flex;
@@ -17,7 +17,7 @@ header {
     justify-content: space-between;
 }
 
-header img {
+header.top img {
     height: 100%;
 }
 

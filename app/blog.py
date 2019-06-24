@@ -13,6 +13,25 @@ from flask.cli import with_appcontext
 
 bp = Blueprint("blog", __name__)
 
+BLURB_LENGTH = 100
+BLURB_ELLIPSES = "..."
+
+def get_blurb(s):
+    blurb = ""
+    trimmed = False
+
+    if len(s) > BLURB_LENGTH:
+        blurb = s[0:BLURB_LENGTH - len(BLURB_ELLIPSES)] +  BLURB_ELLIPSES
+        trimmed = True
+    else:
+        blurb = s
+    
+    return (Markdown().convert(blurb), trimmed)
+
+def dbpost_to_post(post):
+    (blurb, trimmed) = get_blurb(post["body"])
+    return {"post": post, "blurb": blurb, "trimmed": trimmed}
+
 @bp.route("/", methods=("GET",))
 def index():
     db = get_db()
@@ -28,8 +47,8 @@ def index():
         " ORDER BY id DESC"
     ).fetchall()
 
-    first = posts.fetchone()
-    rest = posts.fetchall()
+    first = posts.fetchone() 
+    rest = (dbpost_to_post(post) for post in posts.fetchall())
     content = None
 
     if first is not None:

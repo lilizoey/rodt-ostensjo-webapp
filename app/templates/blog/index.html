@@ -8,7 +8,7 @@ Rødt Østensjø
     {% if first %}
         <article>
             <header><h1>{{first["title"]}}</h1></header>
-            {{ first_content|safe }}
+            {{ content|safe }}
         </article>
     {% endif %}
 
@@ -16,8 +16,13 @@ Rødt Østensjø
         <hr>
         {% for post in rest %}
         <article>
-            <header><h1>{{post["title"]}}</h1></header>
-            <a href="{{url_for('article.article', id=post['id'])}}">Les Mer</a>
+            <header><h1>{{post["post"]["title"]}}</h1></header>
+            {% if post["trimmed"] %}
+                {{ post["blurb"]|safe }}
+                <a href="{{url_for('article.article', id=post['post']['id'])}}">Les Mer</a>
+            {% else %}
+                {{ post["blurb"]|safe }}
+            {% endif %}
         </article>
         {% if not loop.last or legacy %}
             <hr>        

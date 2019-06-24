@@ -33,10 +33,10 @@ def add_post_command(title, legacy, filename, author):
     """Add a legacy-style post to the website with a title, and contents from a file."""
     
     if not legacy and author is None:
-        print("Please give the id of an author.")
+        click.echo("Please give the id of an author.")
         return
     elif legacy and author is not None:
-        print("Legacy posts dont have authors.")
+        click.echo("Legacy posts dont have authors.")
         return
 
     db = get_db()
@@ -62,10 +62,10 @@ def add_post_command(title, legacy, filename, author):
     author_id = db.execute(
         "SELECT id FROM author WHERE name = ?",
         (author,)
-    )
+    ).fetchone()["id"]
 
     if author_id is None:
-        print("Author not found")
+        click.echo("Author not found")
         return
     
     with open(filename) as f:
@@ -74,6 +74,7 @@ def add_post_command(title, legacy, filename, author):
             " VALUES (?, ?, ?)",
             (author_id, title, f.read())
         )
+        db.commit()
     
     if file_is_temp:
         os.remove(filename)
@@ -116,7 +117,7 @@ def edit_post_command(id, new_title, legacy, filename):
         ).fetchone()
     
     if post is None:
-        print(f"Post with id {id} not found.")
+        click.echo(f"Post with id {id} not found.")
         return
     
     with open(filename, "w+") as f:
