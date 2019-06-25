@@ -76,8 +76,7 @@ def add_post_command(title, legacy, filename, author):
         )
         db.commit()
     
-    if file_is_temp:
-        os.remove(filename)
+    os.remove(filename)
 
 @click.command("add-author")
 @click.argument("name")
@@ -145,9 +144,29 @@ def edit_post_command(id, new_title, legacy, filename):
     db.commit()
     os.remove(filename)
 
-    
+@click.command("remove-post")
+@click.argument("id")
+@click.option("--legacy", default=False)
+@with_appcontext
+def remove_post_command(id, legacy):
+    db = get_db()
+
+    if not legacy:
+        db.execute(
+            "DELETE FROM post"
+            " WHERE id = ?",
+            (id,)
+        )
+    else:
+        db.execute(
+            "DELETE FROM legacy_post"
+            " WHERE id = ?",
+            (id,)
+        )
+    db.commit()
 
 def init_app(app):
     app.cli.add_command(add_post_command)
     app.cli.add_command(add_author_command)
     app.cli.add_command(edit_post_command)
+    app.cli.add_command(remove_post_command)
