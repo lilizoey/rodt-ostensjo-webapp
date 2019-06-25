@@ -59,3 +59,18 @@ section.content {
 section.content h1 {
     font-size: 2rem;
 }
+
+/* images */
+
+article img {
+    display: inline-block;
+}
+
+img.small {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+img.left {
+    float: left;
+}
